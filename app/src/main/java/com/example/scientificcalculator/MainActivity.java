@@ -1,12 +1,11 @@
 package com.example.scientificcalculator;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     Button bfact;
     Button bsq;
     Button broot;
-    Button binv;
     Button bac;
     Button bc;
     Button bclon;
@@ -86,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         bfact = findViewById(R.id.bfact);
         bsq = findViewById(R.id.bsqure);
         broot = findViewById(R.id.broot);
-        binv = findViewById(R.id.binv);
 
         tvMain = findViewById(R.id.tvMain);
         tvSecond = findViewById(R.id.tvSecond);
@@ -110,6 +107,10 @@ public class MainActivity extends AppCompatActivity {
         bminus.setOnClickListener(view -> tvMain.setText(tvMain.getText()+"-"));
         bdiv.setOnClickListener(view -> tvMain.setText(tvMain.getText()+"÷"));
         bmul.setOnClickListener(view -> tvMain.setText(tvMain.getText()+"×"));
+        bsin.setOnClickListener(view -> tvMain.setText(tvMain.getText() + "sin"));
+        bcos.setOnClickListener(view -> tvMain.setText(tvMain.getText() + "cos"));
+        btan.setOnClickListener(view -> tvMain.setText(tvMain.getText() + "tan"));
+        bin.setOnClickListener(view -> tvMain.setText(tvMain.getText() + "^"+"(-1)"));
 
         bc.setOnClickListener(view -> {
             String val = tvMain.getText().toString();
@@ -135,11 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     bsq.setEnabled(false);
                 }
-//            String val = tvMain.getText().toString();
-//            double num;
-//            num = Double.parseDouble(val);
-//            Double squareroot = Math.pow(num, 0.5);
-//            tvMain.setText(String.valueOf(squareroot));
         });
 
         bpi.setOnClickListener(view -> {
@@ -147,24 +143,6 @@ public class MainActivity extends AppCompatActivity {
             tvMain.setText(tvMain.getText() + pi);
         });
 
-        bsin.setOnClickListener(view -> {
-            tvMain.setText(tvMain.getText() + "sin");
-        });
-
-        bcos.setOnClickListener(view -> {
-
-            tvMain.setText(tvMain.getText() + "cos");
-        });
-
-        btan.setOnClickListener(view -> {
-
-            tvMain.setText(tvMain.getText() + "tan");
-        });
-
-        bin.setOnClickListener(view -> {
-
-            tvMain.setText(tvMain.getText() + "^"+"(-1)");
-        });
 
         bfact.setOnClickListener(view -> {
             int val = Integer.parseInt(tvMain.getText().toString());
@@ -262,13 +240,28 @@ public class MainActivity extends AppCompatActivity {
                     while (ch >= 'a' && ch <= 'z') nextChar();
                     String func = str.substring(startPos, this.pos);
                     x = parseFactor();
-                    if (func.equals("sqrt")) x = Math.sqrt(x);
-                    else if (func.equals("sin")) x = Math.sin(Math.toRadians(x));
-                    else if (func.equals("cos")) x = Math.cos(Math.toRadians(x));
-                    else if (func.equals("tan")) x = Math.tan(Math.toRadians(x));
-                    else if (func.equals("log")) x = Math.log10(x);
-                    else if (func.equals("ln")) x = Math.log(x);
-                    else throw new RuntimeException("Unknown function: " + func);
+                    switch (func) {
+                        case "sqrt":
+                            x = Math.sqrt(x);
+                            break;
+                        case "sin":
+                            x = Math.sin(Math.toRadians(x));
+                            break;
+                        case "cos":
+                            x = Math.cos(Math.toRadians(x));
+                            break;
+                        case "tan":
+                            x = Math.tan(Math.toRadians(x));
+                            break;
+                        case "log":
+                            x = Math.log10(x);
+                            break;
+                        case "ln":
+                            x = Math.log(x);
+                            break;
+                        default:
+                            throw new RuntimeException("Unknown function: " + func);
+                    }
                 } else {
                     throw new RuntimeException("Unexpected: " + (char)ch);
                 }
